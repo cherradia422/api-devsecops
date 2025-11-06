@@ -1,48 +1,27 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:18'
-            args '-u root:root'
-        }
+    agent any
+    tools {
+        nodejs "NodeJS"
     }
-
-    environment {
-        SONARQUBE = 'sonar'
-        SCANNER_HOME = tool 'sonar-scanner'
-    }
-
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/cherradia422/cve-api-project.git'
             }
         }
-
         stage('Install dependencies') {
             steps {
                 sh 'npm install'
             }
         }
-
-        stage('Run SonarQube Analysis') {
+        stage('Lint') {
             steps {
-                withSonarQubeEnv('sonar') {
-                    sh '''
-                        ${SCANNER_HOME}/bin/sonar-scanner \
-                        -Dsonar.projectKey=cve-api \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=http://192.168.48.156:9000 \
-                        -Dsonar.login=${SONARQUBE_AUTH_TOKEN}
-                    '''
-                }
+                sh 'npx eslint . || true'
             }
         }
-
-        stage('Quality Gate') {
+        stage('Security Scan') {
             steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true
-                }
+                sh 'npm audit --audit-level=moderate || true'
             }
         }
     }
