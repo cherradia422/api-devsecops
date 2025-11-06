@@ -1,8 +1,13 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18'
+            args '-u root:root'
+        }
+    }
 
     environment {
-        SONARQUBE = 'sonar'  // Name from Jenkins SonarQube configuration
+        SONARQUBE = 'sonar'
         SCANNER_HOME = tool 'sonar-scanner'
     }
 
