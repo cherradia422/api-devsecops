@@ -70,4 +70,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Build and SonarQube analysis completed successfully
+            echo '✅ Build and SonarQube analysis completed successfully!'
+        }
+        failure {
+            echo '❌ Build or SonarQube analysis failed!'
+        }
+    }
+}
