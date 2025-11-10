@@ -6,7 +6,7 @@ import cveRoutes from "./routes/cveRoutes.js";
 
 dotenv.config();
 const app = express();
-// test git
+// test auto detection jenkind
 // Middleware to parse JSON body
 app.use(express.json());
 
