@@ -1,29 +1,27 @@
-# Base image (lightweight & secure)
+# Base image
 FROM node:18-alpine
 
-# Set working directory
+# Working directory
 WORKDIR /app
 
-# Copy dependency definitions first (for better caching)
+# Copy dependency definitions first (for caching)
 COPY package*.json ./
 
-# Install only production dependencies
+# Install production dependencies only
 RUN npm ci --only=production
 
-# Copy the rest of the application code safely
-COPY . .
+# Copy only necessary application files
+COPY src ./src
+COPY server.js ./
+COPY .env.example ./
 
 # Create non-root user for security
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-
-# Change ownership to the new user
 RUN chown -R appuser:appgroup /app
-
-# Switch to non-root user
 USER appuser
 
-# Expose application port
+# Expose app port
 EXPOSE 5000
 
-# Start the application
+# Start the app
 CMD ["npm", "start"]
