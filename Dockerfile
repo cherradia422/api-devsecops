@@ -1,27 +1,38 @@
-# Base image
-FROM node:18-alpine
+# -------------------------------
+# Base Image
+# -------------------------------
+FROM node:18-alpine AS build
 
-# Working directory
+# Working directory inside the container
 WORKDIR /app
 
-# Copy dependency definitions first (for caching)
+# Copy dependency files first (for better caching)
 COPY package*.json ./
 
-# Install production dependencies only
+# Install only production dependencies
 RUN npm ci --only=production
 
-# Copy only necessary application files
-COPY src ./src
+# Copy only the necessary source files
+COPY controllers ./controllers
+COPY middleware ./middleware
+COPY models ./models
+COPY routes ./routes
 COPY server.js ./
-COPY .env.example ./
+COPY database.sqlite ./
 
-# Create non-root user for security
+# -------------------------------
+# Security: Non-root user
+# -------------------------------
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 RUN chown -R appuser:appgroup /app
 USER appuser
 
-# Expose app port
+# -------------------------------
+# Expose API port
+# -------------------------------
 EXPOSE 5000
 
-# Start the app
+# -------------------------------
+# Start Command
+# -------------------------------
 CMD ["npm", "start"]
