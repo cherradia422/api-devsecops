@@ -18,7 +18,6 @@ COPY middleware ./middleware
 COPY models ./models
 COPY routes ./routes
 COPY server.js ./
-COPY database.sqlite ./
 
 # -------------------------------
 # Security: Non-root user
