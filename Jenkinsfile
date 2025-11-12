@@ -66,6 +66,26 @@ pipeline {
                 }
             }
         }
+
+        
+     // 🐳 Build and Deploy Locally
+        stage('Build and Deploy Docker Image') {
+            steps {
+                script {
+                    def imageName = "cve-api:latest"
+
+                    echo '🐳 Building Docker image...'
+                    sh "docker build -t ${imageName} ."
+
+                    echo '🚀 Stopping old container (if exists)...'
+                    sh "docker stop cve-api || true"
+                    sh "docker rm cve-api || true"
+
+                    echo '🟢 Running new container...'
+                    sh "docker run -d --name cve-api -p 5000:5000 ${imageName}"
+                }
+            }
+        }
     }
 
     post {
