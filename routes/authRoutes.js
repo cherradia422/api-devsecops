@@ -1,7 +1,5 @@
 import express from "express";
 import { register, login } from "../controllers/authController.js";
-//import { verifyToken } from "../middleware/authMiddleware.js";
-//import { isAdmin } from "../middleware/roleMiddleware.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../models/userModel.js";
