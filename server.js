@@ -15,7 +15,7 @@ app.use("/api", authRoutes);
 app.use("/api", cveRoutes);
 // Sync database
 sequelize.sync().then(() => {
-  console.log("✅ Database connected and tables created!!");
+  console.log("✅ Database connected and tables created!!!");
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 });
