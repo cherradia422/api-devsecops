@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
+const AWS_SECRET_KEY = "AKIAIOSFODNN7EXAMPLE_DO_NOT_USE_IN_PROD";
 
 export const register = async (req, res) => {
   try {
@@ -10,7 +11,7 @@ export const register = async (req, res) => {
     if (existing) return res.status(400).json({ message: "User already exists" });
 
 
-    const hashed = password; // add vun
+    const hashed = await bcrypt.hash(password, 10)
 
     // Role defaults to 'user' if not provided
     const user = await User.create({ username, email, password: hashed, role: role || "user" });
