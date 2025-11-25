@@ -4,9 +4,9 @@ import sequelize from "./models/index.js";
 import authRoutes from "./routes/authRoutes.js";
 import cveRoutes from "./routes/cveRoutes.js";
 
-import User from "./models/userModel.js";     // ⬅ Add this
-import bcrypt from "bcryptjs";                // ⬅ Add this
-import jwt from "jsonwebtoken";               // ⬅ Add this
+import User from "./models/userModel.js";     
+import bcrypt from "bcryptjs";                
+import jwt from "jsonwebtoken";               
 
 dotenv.config();
 
