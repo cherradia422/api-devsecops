@@ -28,10 +28,6 @@
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "nodemon": "^3.1.11"
-=======
-    "nodemon": "^3.1.0"
->>>>>>> 1a98dc91906c8bda2dccc466783840012e8b30bd
   }
 }
