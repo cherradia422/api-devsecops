@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
-const AWS_SECRET_KEY = "AKIAIOSFODNN7EXAMPLE_DO_NOT_USE_IN_PROD";
 
 export const register = async (req, res) => {
   try {
