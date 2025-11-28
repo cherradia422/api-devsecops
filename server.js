@@ -8,8 +8,6 @@ import User from "./models/userModel.js";
 import bcrypt from "bcryptjs";                
 import jwt from "jsonwebtoken";               
 
-const hash = crypto.createHash("md5").update("example").digest("hex");  
-console.log("MD5 hash:", hash);
 dotenv.config();
 
 const app = express();
