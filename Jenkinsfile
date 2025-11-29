@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         SONAR_SCANNER_HOME = tool 'SonarQube'
-        //SONAR_TOKEN = credentials('SonarQube_token')
+        JWT_SECRET = credentials('jwt_secret')
     }
 
     stages {
@@ -70,24 +70,24 @@ pipeline {
 
         
      // 🐳 Build and Deploy Locally
-        stage('Build and Deploy Docker Image') {
+         stage('Build and Deploy Docker Image') {
             steps {
                 script {
-                    def imageName = "cve-api:latest"
-
-                    echo '🐳 Building Docker image...'
-                    sh "docker build -t ${imageName} ."
-
-                    echo '🚀 Stopping old container (if exists)...'
+                    sh "docker build -t cve-api:latest ."
                     sh "docker stop cve-api || true"
                     sh "docker rm cve-api || true"
-
-                    echo '🟢 Running new container...'
-                    sh "docker run -d --name cve-api -p 5000:5000 ${imageName}"
+                    sh """
+                        docker run -d \
+                        --name cve-api \
+                        -p 5000:5000 \
+                        -e JWT_SECRET=${JWT_SECRET} \
+                        cve-api:latest
+                    """
                 }
             }
         }
     }
+
 
     post {
         success {
